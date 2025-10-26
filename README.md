@@ -21,10 +21,14 @@ A complete, production-ready SaaS starter template featuring:
 ### Subscription Management
 - Browse pricing plans
 - Subscribe via Stripe Checkout
+- **Idempotent fulfillment system** - Production-ready, prevents double-processing
+- **Dual-trigger fulfillment** - Webhooks + Success page for instant UX
+- **Async payment support** - ACH, bank transfers handled automatically
 - Automatic subscription sync with webhooks
 - Customer portal for subscription management
 - Trial period support
 - Subscription status tracking (active, trialing, past_due, canceled, etc.)
+- **Fulfillment tracking** - Complete audit trail in database
 
 ### Database
 - PostgreSQL database via Supabase
@@ -129,6 +133,8 @@ Visit [http://localhost:5173](http://localhost:5173)
 ## Documentation
 
 - **[STRIPE_SETUP.md](./STRIPE_SETUP.md)** - Detailed Stripe integration guide
+- **[FULFILLMENT_GUIDE.md](./FULFILLMENT_GUIDE.md)** - Fulfillment system documentation (NEW!)
+- **[FIX_DATABASE.md](./FIX_DATABASE.md)** - Quick database fixes
 - **[supabase/README.md](./supabase/README.md)** - Database setup instructions
 - **[CLAUDE.md](./CLAUDE.md)** - Complete architecture documentation
 

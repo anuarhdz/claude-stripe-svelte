@@ -51,7 +51,7 @@ export const POST: RequestHandler = async ({ request, locals: { supabase, user }
 				}
 			],
 			mode: 'subscription',
-			success_url: `${PUBLIC_APP_URL}/dashboard?success=true`,
+			success_url: `${PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
 			cancel_url: `${PUBLIC_APP_URL}/pricing?canceled=true`,
 			allow_promotion_codes: true,
 			billing_address_collection: 'auto',

@@ -9,6 +9,7 @@ import {
 } from '$env/static/public';
 import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
 import type Stripe from 'stripe';
+import { fulfillCheckout } from '$lib/fulfillment.server';
 
 // Create admin client for webhook operations (lazily)
 function getSupabaseAdmin() {
@@ -93,7 +94,12 @@ async function manageSubscriptionStatusChange(
 	// Retrieve subscription details from Stripe
 	const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
 		expand: ['default_payment_method']
-	}) as Stripe.Subscription;
+	});
+
+	// Get period dates from subscription item (they're stored there, not on subscription)
+	const subscriptionItem = subscription.items.data[0];
+	const currentPeriodStart = (subscriptionItem as any).current_period_start;
+	const currentPeriodEnd = (subscriptionItem as any).current_period_end;
 
 	// Helper to safely convert timestamp to ISO string
 	const toISOString = (timestamp: number | null | undefined): string | null => {
@@ -119,8 +125,8 @@ async function manageSubscriptionStatusChange(
 		cancel_at_period_end: subscription.cancel_at_period_end,
 		cancel_at: toISOString(subscription.cancel_at),
 		canceled_at: toISOString(subscription.canceled_at),
-		current_period_start: toISOString((subscription as any).current_period_start),
-		current_period_end: toISOString((subscription as any).current_period_end),
+		current_period_start: toISOString(currentPeriodStart),
+		current_period_end: toISOString(currentPeriodEnd),
 		created: toISOString(subscription.created),
 		ended_at: toISOString(subscription.ended_at),
 		trial_start: toISOString(subscription.trial_start),
@@ -202,6 +208,23 @@ export const POST: RequestHandler = async ({ request }) => {
 					subscriptionDeleted.customer as string,
 					false
 				);
+				break;
+
+			case 'checkout.session.completed':
+				const sessionCompleted = event.data.object as Stripe.Checkout.Session;
+				await fulfillCheckout(sessionCompleted.id, getSupabaseAdmin());
+				break;
+
+			case 'checkout.session.async_payment_succeeded':
+				const sessionAsyncSucceeded = event.data.object as Stripe.Checkout.Session;
+				await fulfillCheckout(sessionAsyncSucceeded.id, getSupabaseAdmin());
+				break;
+
+			case 'checkout.session.async_payment_failed':
+				const sessionAsyncFailed = event.data.object as Stripe.Checkout.Session;
+				console.log(`Async payment failed for session: ${sessionAsyncFailed.id}`);
+				// TODO: Send email to customer about failed payment
+				// TODO: Update user's account status if needed
 				break;
 
 			default:
