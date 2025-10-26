@@ -209,3 +209,130 @@ CSS variables in `app.css` define light/dark themes using HSL values.
 - Prettier is configured for code formatting with Svelte plugin support
 - ESLint integrates with Svelte config for proper linting of `.svelte` files
 - Tailwind CSS v4 uses `@import "tailwindcss"` instead of directives
+
+---
+
+## Reusing This Integration in Other Projects
+
+This project implements a production-ready Stripe + Supabase integration that can be replicated in other projects. Here's how to reuse this knowledge:
+
+### Key Learnings & Patterns
+
+**1. Idempotent Fulfillment Pattern**
+- Located: `src/lib/fulfillment.server.ts`
+- Pattern: Check DB before fulfilling, use checkout_sessions table as lock
+- Reusable: Copy this file and adapt `performFulfillmentActions()` to your needs
+- Documentation: `FULFILLMENT_GUIDE.md`
+
+**2. Webhook Handler Architecture**
+- Located: `src/routes/api/webhooks/stripe/+server.ts`
+- Pattern: Signature verification → Event routing → Database sync
+- Key insight: Subscription periods are in `subscription.items.data[0]`, not on subscription object
+- Reusable: Copy structure, adapt event handlers for your business logic
+
+**3. Database Schema**
+- Located: `supabase/migrations/00001_subscriptions_schema.sql`
+- Pattern: Mirror Stripe objects + RLS policies
+- Key tables: customers, subscriptions, products, prices, checkout_sessions
+- Reusable: Adapt foreign keys and add your custom fields
+
+**4. Dual-Trigger Fulfillment**
+- Success page (`/checkout/success/+page.server.ts`) + Webhooks
+- Pattern: Both trigger same idempotent function
+- Result: Instant UX + guaranteed reliability
+- Reusable: This pattern works for any Stripe Checkout integration
+
+### Files to Copy for New Projects
+
+**Essential Integration Files:**
+```bash
+# Core Stripe integration
+src/lib/stripe.server.ts
+src/lib/fulfillment.server.ts
+src/routes/api/webhooks/stripe/+server.ts
+src/routes/api/stripe/checkout/+server.ts
+src/routes/api/stripe/portal/+server.ts
+
+# Database layer
+src/lib/supabase.ts
+supabase/migrations/00001_subscriptions_schema.sql
+supabase/migrations/00002_add_foreign_key.sql
+supabase/migrations/00003_checkout_fulfillment.sql
+
+# Success page
+src/routes/checkout/success/+page.svelte
+src/routes/checkout/success/+page.server.ts
+```
+
+**Documentation to Reference:**
+```bash
+ARCHITECTURE.md          # Why we made these decisions
+FULFILLMENT_GUIDE.md     # How fulfillment system works
+STRIPE_SETUP.md          # Step-by-step Stripe configuration
+```
+
+### Adapting to Different Stacks
+
+**Different framework (Next.js, Remix, etc.):**
+- Port `fulfillment.server.ts` (framework-agnostic)
+- Adapt webhook handler to your framework's API route format
+- Use same database schema (PostgreSQL)
+- Keep the dual-trigger pattern
+
+**Different database (MySQL, MongoDB, etc.):**
+- Adapt migrations to your database syntax
+- Keep the idempotency pattern (unique constraint on checkout_sessions.id)
+- RLS → implement in your ORM/middleware
+
+**Different payment processor:**
+- The idempotent fulfillment pattern applies to any payment provider
+- Adapt webhook signature verification to your provider
+- Keep the checkout_sessions tracking table
+
+### Quick Start Template
+
+To use this project as a starting point for a new SaaS:
+
+1. **Fork/clone this repo:**
+   ```bash
+   git clone https://github.com/tu-usuario/claude-stripe-svelte my-new-saas
+   cd my-new-saas
+   ```
+
+2. **Update to your branding:**
+   - Replace company name in UI
+   - Update theme colors in `app.css`
+   - Customize email domain in auth settings
+
+3. **Add your business logic:**
+   - Modify `performFulfillmentActions()` in `fulfillment.server.ts`
+   - Add your app-specific features to dashboard
+   - Extend subscriptions table with your metadata
+
+4. **Deploy:**
+   - Set environment variables in hosting platform
+   - Configure production webhook in Stripe Dashboard
+   - Run migrations in production Supabase
+
+### When Starting a New Chat Session
+
+To help Claude Code understand this integration pattern in a new project, start your session with:
+
+> "I want to implement Stripe subscriptions like in my previous project. Here are the key files for reference: [attach ARCHITECTURE.md, fulfillment.server.ts, and webhook handler]. Please analyze these and help me implement the same idempotent fulfillment pattern in this new codebase."
+
+Or simply:
+
+> "Read the ARCHITECTURE.md file which explains our Stripe integration approach. I want to implement the same pattern here."
+
+### Additional Resources
+
+- **Official Stripe Docs:** https://docs.stripe.com/checkout/fulfillment
+- **This Project's Architecture:** `ARCHITECTURE.md`
+- **Fulfillment Deep Dive:** `FULFILLMENT_GUIDE.md`
+- **Setup Walkthrough:** `STRIPE_SETUP.md`
+
+---
+
+**Last Updated:** 2025-10-26
+**Integration Version:** 1.0
+**Tested with:** Stripe API 2025-09-30.clover, Supabase JS v2.x

@@ -134,12 +134,21 @@ Visit [http://localhost:5173](http://localhost:5173)
 
 ## Documentation
 
-- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - **⭐ START HERE:** Architecture & design decisions explained
-- **[STRIPE_SETUP.md](./STRIPE_SETUP.md)** - Detailed Stripe integration guide
-- **[FULFILLMENT_GUIDE.md](./FULFILLMENT_GUIDE.md)** - Fulfillment system documentation
-- **[FIX_DATABASE.md](./FIX_DATABASE.md)** - Quick database fixes
+### Getting Started
+- **[README.md](./README.md)** - You are here! Quick start guide
+
+### Understanding the Architecture
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - **⭐ START HERE:** Complete architecture & design decisions (40+ pages)
+- **[STRIPE_INTEGRATION_REFERENCE.md](./STRIPE_INTEGRATION_REFERENCE.md)** - **📋 Quick Reference:** Copy this to new projects for AI assistance
+
+### Implementation Guides
+- **[STRIPE_SETUP.md](./STRIPE_SETUP.md)** - Detailed Stripe integration setup
+- **[FULFILLMENT_GUIDE.md](./FULFILLMENT_GUIDE.md)** - Fulfillment system deep dive
+- **[FIX_DATABASE.md](./FIX_DATABASE.md)** - Database troubleshooting
 - **[supabase/README.md](./supabase/README.md)** - Database setup instructions
-- **[CLAUDE.md](./CLAUDE.md)** - Technical documentation for Claude Code
+
+### For AI Development
+- **[CLAUDE.md](./CLAUDE.md)** - Technical documentation for Claude Code instances
 
 ## Common Tasks
 
