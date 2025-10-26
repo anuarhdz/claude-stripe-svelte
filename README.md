@@ -1,5 +1,11 @@
 # SvelteKit SaaS Starter with Stripe & Supabase
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![SvelteKit](https://img.shields.io/badge/SvelteKit-2.x-orange.svg)](https://kit.svelte.dev/)
+[![Svelte](https://img.shields.io/badge/Svelte-5.x-orange.svg)](https://svelte.dev/)
+[![Stripe](https://img.shields.io/badge/Stripe-API%202025--09--30-6772E5.svg)](https://stripe.com/)
+
 A complete, production-ready SaaS starter template featuring:
 
 - 🔐 **Supabase Authentication** - Secure email/password auth with email verification
@@ -9,6 +15,25 @@ A complete, production-ready SaaS starter template featuring:
 - 📊 **Subscription Dashboard** - User dashboard with subscription management
 - 🔒 **Row Level Security** - Database security with Supabase RLS
 - 💪 **TypeScript** - Full type safety throughout
+
+> **⚡ Quick Start:** [Skip to installation](#installation) | **📖 Learn More:** [Architecture docs](./ARCHITECTURE.md) | **🎯 Reuse Pattern:** [Integration reference](./STRIPE_INTEGRATION_REFERENCE.md)
+
+---
+
+## Why Use This Starter?
+
+This project implements [Stripe's official fulfillment best practices](https://docs.stripe.com/checkout/fulfillment) with:
+
+✅ **Idempotent fulfillment** - Safe to call multiple times, prevents duplicate actions
+✅ **Dual-trigger pattern** - Webhooks + Success page for instant UX + reliability
+✅ **Async payment support** - ACH, bank transfers handled automatically
+✅ **Production-tested patterns** - Based on real-world SaaS implementations
+✅ **Comprehensive documentation** - 40+ pages covering architecture & decisions
+
+**Perfect for:**
+- SaaS MVPs that need subscriptions fast
+- Learning production-ready Stripe integration
+- Reference implementation for your own projects
 
 ## Features
 
@@ -255,14 +280,72 @@ See [SvelteKit adapters](https://svelte.dev/docs/kit/adapters) for platform-spec
 ## Support
 
 For issues and questions:
-- Check the documentation files (`STRIPE_SETUP.md`, `CLAUDE.md`)
+- Check the documentation files ([`ARCHITECTURE.md`](./ARCHITECTURE.md), [`STRIPE_SETUP.md`](./STRIPE_SETUP.md))
 - Review Stripe webhook logs in dashboard
 - Check Supabase logs for database issues
+- [Open an issue](https://github.com/anuarhdz/claude-stripe-svelte/issues) on GitHub
+
+## Contributing
+
+Contributions are welcome! This project serves as a reference implementation, but improvements are always appreciated.
+
+**Areas where contributions are especially welcome:**
+- Additional payment methods (PayPal, crypto, etc.)
+- Email notification templates
+- More comprehensive test suite
+- Additional UI components
+- Internationalization (i18n)
+- Documentation improvements
+
+Please feel free to:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Roadmap
+
+See [ARCHITECTURE.md - Section 10](./ARCHITECTURE.md#10-roadmap-and-mejoras-futuras) for planned features and improvements.
+
+**Short term:**
+- [ ] Email notifications system
+- [ ] More shadcn-svelte components
+- [ ] Usage-based billing examples
+
+**Medium term:**
+- [ ] Multi-subscription support
+- [ ] Team/organization features
+- [ ] Admin dashboard
+
+## Star History
+
+If you find this project useful, consider giving it a ⭐ on GitHub!
 
 ## License
 
-MIT
+MIT License - see [LICENSE](LICENSE) file for details
+
+This project is free to use for personal and commercial projects. Attribution is appreciated but not required.
 
 ---
 
-Built with ❤️ using SvelteKit, Stripe, and Supabase
+**Built with ❤️ using SvelteKit, Stripe, and Supabase**
+
+Created by [@anuarhdz](https://github.com/anuarhdz) with assistance from [Claude Code](https://claude.com/claude-code)
+
+## Related Projects
+
+- [SvelteKit](https://github.com/sveltejs/kit) - The framework
+- [Stripe Node SDK](https://github.com/stripe/stripe-node) - Payment processing
+- [Supabase](https://github.com/supabase/supabase) - Backend platform
+- [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) - UI components
+
+---
+
+### Acknowledgments
+
+This project implements patterns and best practices recommended by:
+- [Stripe Checkout Fulfillment Guide](https://docs.stripe.com/checkout/fulfillment)
+- [Stripe Webhooks Best Practices](https://docs.stripe.com/webhooks/best-practices)
+- [Supabase Auth Helpers](https://supabase.com/docs/guides/auth/auth-helpers/sveltekit)
