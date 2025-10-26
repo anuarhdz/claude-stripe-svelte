@@ -126,17 +126,20 @@ Visit [http://localhost:5173](http://localhost:5173)
 │   ├── migrations/                 # Database migrations
 │   └── README.md                   # Database setup guide
 ├── .env.example                    # Environment variables template
+├── ARCHITECTURE.md                 # Architecture & design decisions
 ├── STRIPE_SETUP.md                 # Stripe setup guide
-└── CLAUDE.md                       # Architecture documentation
+├── FULFILLMENT_GUIDE.md            # Fulfillment system guide
+└── CLAUDE.md                       # Technical documentation
 ```
 
 ## Documentation
 
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - **⭐ START HERE:** Architecture & design decisions explained
 - **[STRIPE_SETUP.md](./STRIPE_SETUP.md)** - Detailed Stripe integration guide
-- **[FULFILLMENT_GUIDE.md](./FULFILLMENT_GUIDE.md)** - Fulfillment system documentation (NEW!)
+- **[FULFILLMENT_GUIDE.md](./FULFILLMENT_GUIDE.md)** - Fulfillment system documentation
 - **[FIX_DATABASE.md](./FIX_DATABASE.md)** - Quick database fixes
 - **[supabase/README.md](./supabase/README.md)** - Database setup instructions
-- **[CLAUDE.md](./CLAUDE.md)** - Complete architecture documentation
+- **[CLAUDE.md](./CLAUDE.md)** - Technical documentation for Claude Code
 
 ## Common Tasks
 
